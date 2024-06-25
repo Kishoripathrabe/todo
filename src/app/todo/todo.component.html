@@ -17,20 +17,19 @@
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="createTaskModalLabel">Create New Task</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" (click)="value='';editId = 0" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <form (ngSubmit)="submitTask()" #taskForm="ngForm">
+          <form (ngSubmit)="submitTask(editId?true: false)" #taskForm="ngForm">
             <div class="mb-3">
               <label for="taskInput" class="form-label">Task</label>
               <input type="text" id="taskInput" class="form-control" placeholder="Add Task" [(ngModel)]="value" [ngModelOptions]="{standalone: true}" required />
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="value=''">Close</button>
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="value='';editId = 0">Close</button>
               <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Submit</button>
             </div>
-          </form>
-          
+          </form> 
         </div>
       </div>
     </div>
@@ -53,14 +52,13 @@
             <tr *ngFor="let list of lists; let i = index">
               <td>
                 <div class="form-check">
-                  <label class="form-check-label" *ngIf="!list.edit">
+                  <label class="form-check-label">
                     {{ list.value }}
                   </label>
-                  <input [(ngModel)]="list.value" *ngIf="list.edit" />
                 </div>
               </td>
               <td>
-                <button class="btn btn-success" (click)="editTask(list)">{{ list.edit ? "Submit" : "Edit" }}</button>
+                <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#createTaskModal" (click)="editTask(list)">Edit</button>
               </td>
               <td>
                 <button class="btn btn-danger" (click)="deleteTask(list)">Delete</button>
